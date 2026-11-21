@@ -36,11 +36,21 @@ module.exports = async function handler(req, res) {
 
   const url = new URL(id ? `${endpoint}/${id.toLowerCase()}` : endpoint);
   url.searchParams.set('api_version', '1.1');
+  const start = query.get('date_from');
+  const end = query.get('date_to');
+  if (start || end) {
+    const validDate = (v) => /^\d{4}-\d{2}-\d{2}$/.test(v) && Number.isFinite(Date.parse(v)) && new Date(v).toISOString().startsWith(v);
+    if (!validDate(start) || !validDate(end) || end <= start) {
+      return res.status(400).json({ error: 'Choose a check-out date after your check-in date.' });
+    }
+    url.searchParams.set('date_from', start);
+    url.searchParams.set('date_to', end);
+  }
+  if (guests) url.searchParams.set('guests', guests);
   if (!id) {
     url.searchParams.set('limit', '25');
     if (location) url.searchParams.set('location', location);
     if (type) url.searchParams.set('boat_type', type);
-    if (guests) url.searchParams.set('guests', guests);
   }
 
   const headers = { Accept: 'application/json' };

@@ -83,7 +83,7 @@ async function search(query) {
 
 function readAddress() {
   const query = new URLSearchParams(location.search);
-  for (const name of ['location', 'type', 'guests']) {
+  for (const name of ['location', 'type', 'guests', 'date_from', 'date_to']) {
     form.elements.namedItem(name).value = query.get(name) || '';
   }
   search(new URLSearchParams([...new FormData(form)].filter(([, value]) => value.trim())));

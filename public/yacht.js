@@ -2,7 +2,7 @@ const params = new URLSearchParams(location.search);
 const status = document.querySelector('#yacht-status');
 const yacht = document.querySelector('#yacht');
 const filters = new URLSearchParams();
-for (const field of ['location', 'type', 'guests']) {
+for (const field of ['location', 'type', 'guests', 'date_from', 'date_to']) {
   if (params.has(field)) filters.set(field, params.get(field));
 }
 if (filters.size) document.querySelector('#back-to-results').href = `/charters.html?${filters}`;
@@ -68,7 +68,7 @@ async function loadYacht() {
   }
 
   try {
-    const response = await fetch(`/api/charters?${new URLSearchParams({ id })}`);
+    const response = await fetch(`/api/charters?${new URLSearchParams([...filters, ["id", id]])}`);
     const boat = await response.json();
     if (!response.ok) throw new Error(boat.error || 'Yacht details are temporarily unavailable.');
 
@@ -101,6 +101,13 @@ async function loadYacht() {
       photo.src = photoUrl.href;
       photo.alt = title;
       photo.hidden = false;
+    }
+    if (boat.url) {
+      const booking = document.querySelector('#booking');
+      booking.href = boat.url;
+      booking.hidden = false;
+    } else {
+      document.querySelector('#booking-status').textContent = 'A booking link is currently unavailable for this yacht.';
     }
     renderAvailability(boat.availability, boat.currency);
 
