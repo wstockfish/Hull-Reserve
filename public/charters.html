@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Search charter yachts by destination, yacht type, and guest capacity.">
+    <title>Browse Charter Yachts | Hull Reserve</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/charters.js" defer></script>
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="wordmark" href="/" aria-label="Hull Reserve home">
+        <span class="wordmark-icon" aria-hidden="true"></span>
+        Hull Reserve
+      </a>
+      <nav aria-label="Main navigation"><a href="/#charters">Charter guide</a></nav>
+    </header>
+
+    <main class="catalogue">
+      <div class="catalogue-intro">
+        <h1>Browse charter yachts.</h1>
+        <p>Find a yacht by destination, boat type, and guest count. Listings are sourced from <a href="https://charter.boats/">Charter Boats</a>, where you can check availability and book.</p>
+      </div>
+      <form id="charter-search" class="charter-search" action="/charters.html">
+        <label>Destination
+          <input name="location" type="search" maxlength="100" placeholder="e.g. Croatia or Lefkada">
+        </label>
+        <label>Yacht type
+          <select name="type">
+            <option value="">Any type</option>
+            <option value="catamaran">Catamaran</option>
+            <option value="sailboat">Sailboat</option>
+            <option value="motorboat">Motorboat</option>
+            <option value="yacht">Yacht</option>
+            <option value="gulet">Gulet</option>
+            <option value="rib">RIB</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label>Guests
+          <input name="guests" type="number" min="1" max="999" placeholder="Any">
+        </label>
+        <button class="button" type="submit">Search yachts</button>
+      </form>
+      <noscript><p><a href="https://charter.boats/search">Browse listings on Charter Boats</a>.</p></noscript>
+      <div class="catalogue-status">
+        <p id="charter-status" role="status"></p>
+        <a id="charter-source" href="https://charter.boats/search">See more on Charter Boats</a>
+      </div>
+      <div id="charter-results" class="charter-results" aria-label="Charter search results"></div>
+    </main>
+
+    <footer>
+      <a class="wordmark" href="/">Hull Reserve</a>
+      <a href="https://charter.boats/">Listings by Charter Boats</a>
+    </footer>
+  </body>
+</html>

@@ -55,6 +55,7 @@ a:focus-visible { outline: .15rem solid currentColor; outline-offset: .35rem; }
 
 .masthead nav a, footer > a:last-child { font-size: .94rem; }
 .masthead nav a { text-decoration-color: #9cb9b6; }
+.masthead nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .3rem 1.4rem; }
 
 .hero {
   position: relative;
@@ -139,6 +140,43 @@ footer {
   color: var(--white);
 }
 
+.catalogue { max-width: 100rem; margin: auto; padding: 3.5rem var(--gutter) 5rem; }
+.catalogue-intro h1 { font-size: clamp(3.2rem, 7vw, 6.3rem); }
+.catalogue-intro p { max-width: 38rem; line-height: 1.6; margin-bottom: 2rem; }
+.charter-search {
+  display: grid;
+  grid-template-columns: minmax(12rem, 2fr) 1fr minmax(5rem, .55fr) auto;
+  align-items: end;
+  gap: .85rem;
+  padding: 1.2rem;
+  background: #e9eeea;
+}
+.charter-search label { display: grid; gap: .4rem; font-weight: 600; }
+.charter-search input, .charter-search select, .charter-search button {
+  min-width: 0;
+  min-height: 3rem;
+  font: inherit;
+  border: 1px solid #a1b6b4;
+  border-radius: .2rem;
+}
+.charter-search input, .charter-search select { background: #fff; color: var(--ink); padding: .45rem .65rem; }
+.charter-search button { background: var(--navy); color: var(--white); cursor: pointer; font-weight: 650; }
+.charter-search button:hover { background: #1b4757; }
+.charter-search button:focus-visible { outline-color: var(--navy); }
+.catalogue-status { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .6rem 1rem; margin: 1.5rem 0; }
+.catalogue-status p { margin: 0; }
+.charter-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 1.25rem; }
+.charter-card { background: #fffdf7; border: 1px solid #cbd6d2; overflow: hidden; }
+.charter-card img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: #e0e9e8; }
+.charter-card-body { padding: 1rem; }
+.charter-card h2 { max-width: none; font-size: 1.5rem; letter-spacing: -.025em; line-height: 1.15; }
+.charter-card p { margin: .45rem 0; line-height: 1.45; }
+.charter-card .charter-price { margin: .8rem 0; font-weight: 600; }
+
+@media (max-width: 55rem) {
+  .charter-search { grid-template-columns: 1fr 1fr; }
+}
+
 @media (max-width: 42rem) {
   .masthead { min-height: 4.25rem; }
   .hero { align-items: end; min-height: max(34rem, 79svh); padding-block: 3rem; }
@@ -146,4 +184,6 @@ footer {
   .hero::after { background: linear-gradient(0deg, #051e30fa, #051e30a6 49%, #051e3014 91%); }
   h1 { font-size: clamp(3.1rem, 12vw, 4.8rem); }
   .charter-guide { grid-template-columns: 1fr; }
+  .charter-search label:first-child { grid-column: 1 / -1; }
+  .charter-search button { grid-column: 1 / -1; }
 }
