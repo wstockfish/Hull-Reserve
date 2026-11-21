@@ -20,7 +20,7 @@
     <main class="catalogue">
       <div class="catalogue-intro">
         <h1>Browse charter yachts.</h1>
-        <p>Find a yacht by destination, boat type, and guest count. Listings are sourced from <a href="https://charter.boats/">Charter Boats</a>, where you can check availability and book.</p>
+        <p>Find a yacht by destination, boat type, and guest count. Listings and availability are provided by Charter Boats (charter.boats).</p>
       </div>
       <form id="charter-search" class="charter-search" action="/charters.html">
         <label>Destination
@@ -43,17 +43,16 @@
         </label>
         <button class="button" type="submit">Search yachts</button>
       </form>
-      <noscript><p><a href="https://charter.boats/search">Browse listings on Charter Boats</a>.</p></noscript>
+      <noscript><p>Enable JavaScript to search live yacht listings.</p></noscript>
       <div class="catalogue-status">
         <p id="charter-status" role="status"></p>
-        <a id="charter-source" href="https://charter.boats/search">See more on Charter Boats</a>
       </div>
       <div id="charter-results" class="charter-results" aria-label="Charter search results"></div>
     </main>
 
     <footer>
       <a class="wordmark" href="/">Hull Reserve</a>
-      <a href="https://charter.boats/">Listings by Charter Boats</a>
+      <span>Listings by Charter Boats</span>
     </footer>
   </body>
 </html>

@@ -62,7 +62,14 @@ module.exports = async function handler(req, res) {
     if (id) {
       const boat = data.boat;
       if (!boat?.id) throw new Error('Unexpected yacht response');
-      res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=3600, stale-while-revalidate=600');
+      const slots = data.bookable_slots?.slots;
+      const availability = Array.isArray(slots) ? slots.map((slot) => ({
+        checkin: slot.checkin,
+        checkout: slot.checkout,
+        product: slot.product,
+        total: Number.isFinite(slot.total) ? slot.total : null,
+      })) : null;
+      res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300, stale-while-revalidate=300');
       return res.status(200).json({
         title: boat.title,
         description: boat.description,
@@ -74,6 +81,8 @@ module.exports = async function handler(req, res) {
         year: boat.year,
         length: boat.length_ft,
         schedule: boat.charter_schedule,
+        availability,
+        currency: data.pricing?.currency,
         url: trustedUrl(data.url, bookingHosts),
       });
     }

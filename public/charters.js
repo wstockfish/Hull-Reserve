@@ -1,8 +1,6 @@
 const form = document.querySelector('#charter-search');
 const status = document.querySelector('#charter-status');
 const results = document.querySelector('#charter-results');
-const source = document.querySelector('#charter-source');
-const sourceDefault = source.href;
 const count = new Intl.NumberFormat();
 let activeSearch;
 
@@ -42,10 +40,6 @@ function card(boat) {
   if (boat.price) body.append(element('p', boat.price, 'charter-price'));
   if (boat.id) {
     body.append(element('span', 'View yacht details', 'charter-card-action'));
-  } else if (boat.url) {
-    const link = element('a', 'View on Charter Boats');
-    link.href = boat.url;
-    body.append(link);
   }
   content.append(body);
   return article;
@@ -58,7 +52,6 @@ async function search(query) {
   results.replaceChildren();
   results.setAttribute('aria-busy', 'true');
   status.textContent = 'Searching for yachts…';
-  source.href = sourceDefault;
 
   try {
     const response = await fetch(`/api/charters?${query}`, { signal: controller.signal });
@@ -66,7 +59,6 @@ async function search(query) {
     if (!response.ok) throw new Error(data.error || 'The search is temporarily unavailable.');
     if (controller.signal.aborted) return;
 
-    source.href = data.searchUrl || sourceDefault;
     if (data.boats.length) {
       const total = Math.max(data.total, data.boats.length);
       status.textContent = total > data.boats.length
@@ -81,7 +73,7 @@ async function search(query) {
   } catch (error) {
     if (!controller.signal.aborted) {
       status.textContent = error instanceof SyntaxError || error instanceof TypeError
-        ? 'The search is temporarily unavailable. Try again or browse on Charter Boats.'
+        ? 'The search is temporarily unavailable. Try again shortly.'
         : error.message;
     }
   } finally {

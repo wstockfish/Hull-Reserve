@@ -27,10 +27,15 @@
             <dl id="yacht-facts" class="yacht-facts"></dl>
             <p id="yacht-description"></p>
             <p id="yacht-schedule"></p>
-            <a id="yacht-booking" class="button" target="_blank" rel="noopener" hidden>Check availability on Charter Boats (opens in a new tab)</a>
-            <p>Listing provided by <a href="https://charter.boats/">Charter Boats</a>.</p>
           </div>
         </div>
+        <section class="yacht-availability" aria-labelledby="availability-title">
+          <h2 id="availability-title">Upcoming availability</h2>
+          <p>Dates and prices are provided by Charter Boats (charter.boats). Prices exclude refundable deposits. Booking is currently unavailable on Hull Reserve.</p>
+          <label id="availability-filter" hidden>Check-in month <select id="availability-month"></select></label>
+          <p id="availability-status" role="status"></p>
+          <ul id="availability-slots" class="availability-slots"></ul>
+        </section>
       </article>
     </main>
   </body>

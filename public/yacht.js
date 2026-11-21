@@ -7,6 +7,59 @@ for (const field of ['location', 'type', 'guests']) {
 }
 if (filters.size) document.querySelector('#back-to-results').href = `/charters.html?${filters}`;
 
+function renderAvailability(slots, currency) {
+  const filter = document.querySelector('#availability-filter');
+  const month = document.querySelector('#availability-month');
+  const message = document.querySelector('#availability-status');
+  const list = document.querySelector('#availability-slots');
+  if (!Array.isArray(slots)) {
+    message.textContent = 'Availability is temporarily unavailable for this yacht.';
+    return;
+  }
+
+  const parseDate = (value) => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value)
+    ? new Date(`${value.slice(0, 10)}T00:00:00Z`)
+    : new Date(NaN);
+  const dates = slots.map((slot) => ({ ...slot, start: parseDate(slot.checkin), end: parseDate(slot.checkout) }))
+    .filter(({ start, end }) => Number.isFinite(+start) && Number.isFinite(+end));
+  if (!dates.length) {
+    message.textContent = 'There are no upcoming dates listed for this yacht.';
+    return;
+  }
+
+  const format = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeZone: 'UTC' });
+  const monthFormat = new Intl.DateTimeFormat(undefined, { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  const monthly = new Map();
+  for (const slot of dates) {
+    const key = slot.checkin.slice(0, 7);
+    if (!monthly.has(key)) monthly.set(key, []);
+    monthly.get(key).push(slot);
+  }
+  const money = ['EUR', 'USD'].includes(currency)
+    ? new Intl.NumberFormat(undefined, { style: 'currency', currency })
+    : null;
+
+  for (const [key, entries] of monthly) month.add(new Option(monthFormat.format(entries[0].start), key));
+  filter.hidden = false;
+
+  function showMonth() {
+    const entries = monthly.get(month.value) || [];
+    list.replaceChildren(...entries.map(({ start, end, product, total }) => {
+      const row = document.createElement('li');
+      const stay = document.createElement('span');
+      stay.textContent = format.formatRange(start, end);
+      if (product) stay.append(` · ${product}`);
+      const price = document.createElement('strong');
+      price.textContent = money && Number.isFinite(total) ? `${money.format(total)} total` : 'Price unavailable';
+      row.append(stay, price);
+      return row;
+    }));
+  }
+
+  month.addEventListener('change', showMonth);
+  showMonth();
+}
+
 async function loadYacht() {
   const id = params.get('id');
   if (!id) {
@@ -49,11 +102,7 @@ async function loadYacht() {
       photo.alt = title;
       photo.hidden = false;
     }
-    if (boat.url) {
-      const booking = document.querySelector('#yacht-booking');
-      booking.href = boat.url;
-      booking.hidden = false;
-    }
+    renderAvailability(boat.availability, boat.currency);
 
     status.textContent = '';
     yacht.hidden = false;
