@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yacht Details | Hull Reserve</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/yacht.js" defer></script>
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="wordmark" href="/" aria-label="Hull Reserve home">
+        <span class="wordmark-icon" aria-hidden="true"></span>
+        Hull Reserve
+      </a>
+      <nav aria-label="Main navigation"><a href="/charters.html">Browse yachts</a></nav>
+    </header>
+    <main class="catalogue yacht-detail">
+      <a id="back-to-results" href="/charters.html">Back to search results</a>
+      <p id="yacht-status" role="status">Loading yacht details…</p>
+      <article id="yacht" hidden>
+        <h1 id="yacht-name"></h1>
+        <p id="yacht-location" class="yacht-location"></p>
+        <div class="yacht-layout">
+          <img id="yacht-photo" class="yacht-photo" alt="" hidden>
+          <div class="yacht-content">
+            <dl id="yacht-facts" class="yacht-facts"></dl>
+            <p id="yacht-description"></p>
+            <p id="yacht-schedule"></p>
+            <a id="yacht-booking" class="button" target="_blank" rel="noopener" hidden>Check availability on Charter Boats (opens in a new tab)</a>
+            <p>Listing provided by <a href="https://charter.boats/">Charter Boats</a>.</p>
+          </div>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

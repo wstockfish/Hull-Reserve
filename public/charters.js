@@ -15,12 +15,21 @@ function element(tag, value, className) {
 
 function card(boat) {
   const article = element('article', '', 'charter-card');
+  let content = article;
+  if (boat.id) {
+    const params = new URLSearchParams(location.search);
+    params.set('id', boat.id);
+    if (boat.image) params.set('photo', boat.image);
+    content = element('a', '', 'charter-card-link');
+    content.href = `/yacht.html?${params}`;
+    article.append(content);
+  }
   if (boat.image) {
     const image = element('img');
     image.src = boat.image;
     image.alt = '';
     image.loading = 'lazy';
-    article.append(image);
+    content.append(image);
   }
 
   const body = element('div', '', 'charter-card-body');
@@ -31,12 +40,14 @@ function card(boat) {
   if (boat.location) body.append(element('p', boat.location));
   if (facts.some(Boolean)) body.append(element('p', facts.filter(Boolean).join(' · ')));
   if (boat.price) body.append(element('p', boat.price, 'charter-price'));
-  if (boat.url) {
+  if (boat.id) {
+    body.append(element('span', 'View yacht details', 'charter-card-action'));
+  } else if (boat.url) {
     const link = element('a', 'View on Charter Boats');
     link.href = boat.url;
     body.append(link);
   }
-  article.append(body);
+  content.append(body);
   return article;
 }
 
