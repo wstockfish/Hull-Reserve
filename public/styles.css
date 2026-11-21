@@ -236,9 +236,19 @@ footer {
 .models { display: grid; grid-template-columns: repeat(8,minmax(0,1fr)); gap: .3rem; }
 .models label { position: relative; cursor: pointer; }
 .models span { display: flex; flex-direction: column; align-items: center; gap: .35rem; padding: .45rem .2rem .65rem; border-radius: .75rem; border: 1px solid transparent; font-size: .9rem; font-weight: 650; white-space: nowrap; }
-.models img { width: 5rem; height: 3.4rem; object-fit: contain; mix-blend-mode: multiply; }
+.models span { transition: transform .25s ease; }
+.models img { transition: filter .35s ease; width: min(100%, 6rem); height: 4rem; object-fit: contain; mix-blend-mode: multiply; }
 .models input:checked + span { background: #edf5f5; border-color: #94b9be; }
-.models label:hover span { background: #f2f6f7; }
+.models input:focus-visible + span { transform: translateY(-5px); }
+.models input:focus-visible + span img { filter: contrast(1.03); }
+@media (hover: hover) {
+  .models label:hover span { transform: translateY(-5px); }
+  .models label:hover img { filter: contrast(1.03); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .models label span, .models label img { transition: none; }
+  .models label:hover span, .models input:focus-visible + span { transform: none; }
+}
 .models input:focus-visible + span { outline: 2px solid var(--ink); }
 .finder-fields,.charter-search { display: grid; grid-template-columns: minmax(12rem,2fr) repeat(2,minmax(8rem,1fr)) minmax(4rem,.65fr) auto; gap: .7rem; align-items: end; }
 .finder-fields { border-top: 1px solid #e2e7e9; margin-top: .8rem; padding-top: 1rem; }
@@ -273,7 +283,7 @@ footer {
   .hero-intro { max-width: 17rem; }
   .finder { width: 94%; margin-top: -2rem; }
   .models span { font-size: .78rem; }
-  .models img { width: 3.4rem; height: 2.6rem; }
+  .models img { width: min(100%, 4.5rem); height: 3.2rem; }
   .finder-fields button { grid-column: auto; }
   .destinations > div { grid-template-columns: 1fr; }
   .destinations { margin-block: 2.5rem; }

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 185 180">
+<defs>
+  <linearGradient id="sail" x2=".86" y2=".5"><stop stop-color="#c9d2d4"/><stop offset=".32" stop-color="#fffefa"/><stop offset="1" stop-color="#d7dfe0"/></linearGradient>
+  <linearGradient id="hull" x2="0" y2="1"><stop stop-color="#f8faf9"/><stop offset=".42" stop-color="#d8e1e3"/><stop offset="1" stop-color="#869ba5"/></linearGradient>
+  <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#bb895d"/><stop offset=".4" stop-color="#965e3c"/><stop offset="1" stop-color="#503b33"/></linearGradient>
+</defs>
+<path d="M83 10 20 146 M84 10 165 143" fill="none" stroke="#909b9e" stroke-width=".8"/>
+<path d="M81 17 Q53 61 22 123 L79 129Z M87 26 Q104 72 150 131 L88 122Z" fill="url(#sail)" stroke="#9daaad"/>
+<path d="m66 46 14 2m-31 28 31 4m-48 24 47 6" fill="none" stroke="#c0cace"/>
+<path d="m83 7 2 135 M18 126l65 6" stroke="#788c93" stroke-width="2"/>
+<path d="m32 146 14-10 54-4 24 10" fill="url(#hull)" stroke="#97a4a9"/><path d="m53 137 18-1-2 5H48Zm24-1 21-1 9 5-31 1Z" fill="#374c57"/>
+<path d="M9 143 Q70 149 172 137 L157 153 Q102 166 23 156Z" fill="url(#hull)" stroke="#7f949c"/><path d="M17 151q61 10 145-3" fill="none" stroke="#536978"/><path d="m72 160 7 10 14-9" fill="#84969c"/>
+</svg>

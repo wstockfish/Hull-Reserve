@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 164">
+<defs>
+  <linearGradient id="sail" x2=".86" y2=".5"><stop stop-color="#c9d2d4"/><stop offset=".32" stop-color="#fffefa"/><stop offset="1" stop-color="#d7dfe0"/></linearGradient>
+  <linearGradient id="hull" x2="0" y2="1"><stop stop-color="#f8faf9"/><stop offset=".42" stop-color="#d8e1e3"/><stop offset="1" stop-color="#869ba5"/></linearGradient>
+  <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#bb895d"/><stop offset=".4" stop-color="#965e3c"/><stop offset="1" stop-color="#503b33"/></linearGradient>
+</defs>
+<path d="m16 128 52-90 63 94 M69 38l71-26 72 115" fill="none" stroke="#989a90"/>
+<path d="m65 47-38 67 36-3z M135 20l-57 87 55-3z M142 27l53 86-52-9z" fill="url(#sail)" stroke="#a8aaa0"/>
+<path d="m67 129 2-95m68 97 3-123m48 120 38-17" stroke="#86674a" stroke-width="2.4"/>
+<path d="M22 132v-16h44l14 13m-5 2 8-14h52l18 12" fill="#e4d7be" stroke="#8e7763"/><path d="M28 120h12v7H28zm17 0h13v7H45zm42 0h13v7H84zm17 0h13v7h-13zm17 0h11l8 7h-19z" fill="#43525a"/>
+<path d="M8 127q83 16 204-3-11 19-30 24-72 11-153-1Z" fill="url(#wood)" stroke="#71533f"/><path d="M18 135q81 14 182-3" fill="none" stroke="#e6cf9d" stroke-width="2"/>
+</svg>
