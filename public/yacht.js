@@ -46,7 +46,17 @@ function renderAvailability(slots, currency) {
     const entries = monthly.get(month.value) || [];
     list.replaceChildren(...entries.map(({ start, end, product, total }) => {
       const row = document.createElement('li');
-      const stay = document.createElement('span');
+      const stay = document.createElement('button');
+      stay.type = 'button';
+      stay.className = 'slot-dates';
+      stay.addEventListener('click', () => {
+        const form = document.querySelector('#stay-form');
+        form.elements.date_from.value = start.toISOString().slice(0, 10);
+        form.elements.date_to.value = end.toISOString().slice(0, 10);
+        form.dispatchEvent(new Event('input'));
+        form.querySelector('button').focus();
+        form.requestSubmit();
+      });
       stay.textContent = format.formatRange(start, end);
       if (product) stay.append(` · ${product}`);
       const price = document.createElement('strong');
@@ -58,6 +68,72 @@ function renderAvailability(slots, currency) {
 
   month.addEventListener('change', showMonth);
   showMonth();
+}
+
+function enableDateChecks(id, initialBoat) {
+  const form = document.querySelector('#stay-form');
+  const arrival = form.elements.date_from;
+  const departure = form.elements.date_to;
+  const result = document.querySelector('#stay-result');
+  const booking = document.querySelector('#stay-book');
+  const today = new Date();
+  today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+  arrival.min = today.toISOString().slice(0, 10);
+  arrival.value = filters.get('date_from') || '';
+  departure.value = filters.get('date_to') || '';
+  let pending;
+
+  function reset() {
+    pending?.abort();
+    result.textContent = '';
+    booking.hidden = true;
+    booking.removeAttribute('href');
+    const firstDay = arrival.value >= arrival.min ? arrival.value : arrival.min;
+    const nextDay = new Date(firstDay + 'T00:00:00Z');
+    nextDay.setUTCDate(nextDay.getUTCDate() + 1);
+    departure.min = nextDay.toISOString().slice(0, 10);
+  }
+
+  function showStay(boat) {
+    const quote = boat.quote;
+    if (!quote) {
+      result.textContent = 'Charter Boats could not confirm this stay. Try another check-in or checkout date.';
+      return;
+    }
+    const money = new Intl.NumberFormat(undefined, { style: 'currency', currency: boat.currency || 'EUR' });
+    const amounts = [money.format(quote.total) + ' total', money.format(quote.dueNow) + ' due now'];
+    if (Number.isFinite(quote.atPickup)) amounts.push(money.format(quote.atPickup) + ' at pickup');
+    result.textContent = 'Charter Boats quoted ' + amounts.join(', ') + ' for these dates.';
+    for (const deposit of quote.deposits) {
+      if (Number.isFinite(deposit.amount)) result.append(' ' + (deposit.label || 'Refundable deposit') + ' of ' +
+        money.format(deposit.amount) + (deposit.chargedNow ? ' charged at booking.' : ' due at pickup.'));
+    }
+    if (boat.url) {
+      booking.href = boat.url;
+      booking.hidden = false;
+    }
+  }
+
+  form.addEventListener('input', reset);
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    reset();
+    const request = new AbortController();
+    pending = request;
+    const query = new URLSearchParams({ id, date_from: arrival.value, date_to: departure.value });
+    if (filters.has('guests')) query.set('guests', filters.get('guests'));
+    result.textContent = 'Checking these dates with Charter Boats…';
+    try {
+      const response = await fetch('/api/charters?' + query, { signal: request.signal, cache: 'no-store' });
+      const boat = await response.json();
+      if (!response.ok) throw new Error();
+      if (!request.signal.aborted) showStay(boat);
+    } catch {
+      if (!request.signal.aborted) result.textContent = 'The availability check could not be completed. Please try again.';
+    }
+  });
+  reset();
+  if (arrival.value && departure.value) showStay(initialBoat);
 }
 
 async function loadYacht() {
@@ -106,9 +182,13 @@ async function loadYacht() {
       const booking = document.querySelector('#booking');
       booking.href = boat.url;
       booking.hidden = false;
+      const photos = document.querySelector('#provider-photos');
+      photos.href = boat.url;
+      photos.hidden = false;
     } else {
       document.querySelector('#booking-status').textContent = 'A booking link is currently unavailable for this yacht.';
     }
+    enableDateChecks(id, boat);
     renderAvailability(boat.availability, boat.currency);
 
     status.textContent = '';

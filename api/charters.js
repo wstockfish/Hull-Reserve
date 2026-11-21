@@ -73,13 +73,20 @@ module.exports = async function handler(req, res) {
       const boat = data.boat;
       if (!boat?.id) throw new Error('Unexpected yacht response');
       const slots = data.bookable_slots?.slots;
+      const stay = data.stay_price;
+      const quote = start && stay?.check_in === start && stay?.check_out === end
+        && Number.isFinite(stay.total) && Number.isFinite(stay.due_now) ? {
+          total: stay.total, dueNow: stay.due_now, atPickup: stay.paid_at_pickup,
+          deposits: Array.isArray(stay.deposits) ? stay.deposits.map(({ label, amount, charged_now }) =>
+            ({ label, amount, chargedNow: charged_now })) : [],
+        } : null;
       const availability = Array.isArray(slots) ? slots.map((slot) => ({
         checkin: slot.checkin,
         checkout: slot.checkout,
         product: slot.product,
         total: Number.isFinite(slot.total) ? slot.total : null,
       })) : null;
-      res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300, stale-while-revalidate=300');
+      res.setHeader('Cache-Control', start ? 'no-store' : 'public, max-age=0, s-maxage=300, stale-while-revalidate=300');
       return res.status(200).json({
         title: boat.title,
         description: boat.description,
@@ -92,6 +99,7 @@ module.exports = async function handler(req, res) {
         length: boat.length_ft,
         schedule: boat.charter_schedule,
         availability,
+        quote,
         currency: data.pricing?.currency,
         url: trustedUrl(data.url, bookingHosts),
       });

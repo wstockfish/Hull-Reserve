@@ -22,7 +22,10 @@
         <h1 id="yacht-name"></h1>
         <p id="yacht-location" class="yacht-location"></p>
         <div class="yacht-layout">
-          <img id="yacht-photo" class="yacht-photo" alt="" hidden>
+          <div class="yacht-media">
+            <img id="yacht-photo" class="yacht-photo" alt="" hidden>
+            <a id="provider-photos" hidden>View listing photos on Charter Boats</a>
+          </div>
           <div class="yacht-content">
             <dl id="yacht-facts" class="yacht-facts"></dl>
             <p id="yacht-description"></p>
@@ -32,8 +35,16 @@
           </div>
         </div>
         <section class="yacht-availability" aria-labelledby="availability-title">
-          <h2 id="availability-title">Upcoming availability</h2>
+          <h2 id="availability-title">Check availability</h2>
           <p>Dates and prices are provided by Charter Boats (charter.boats). Prices exclude refundable deposits. Complete your booking on Charter Boats.</p>
+          <form class="stay-form" id="stay-form">
+            <label>Check-in <input type="date" name="date_from" required></label>
+            <label>Checkout <input type="date" name="date_to" required></label>
+            <button class="button" type="submit">Check dates</button>
+          </form>
+          <div id="stay-result" role="status"></div>
+          <a id="stay-book" class="button" hidden>Book these dates on Charter Boats</a>
+          <h3>Upcoming charter dates</h3>
           <label id="availability-filter" hidden>Check-in month <select id="availability-month"></select></label>
           <p id="availability-status" role="status"></p>
           <ul id="availability-slots" class="availability-slots"></ul>

@@ -182,7 +182,7 @@ footer {
 .yacht-layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem; }
 .yacht-photo { width: 100%; display: block; border-radius: .3rem; }
 .yacht-photo[hidden] { display: none; }
-.yacht-photo[hidden] + .yacht-content { grid-column: 1 / -1; max-width: 42rem; }
+.yacht-media:has(> [hidden]:first-child):has(> [hidden]:last-child) + .yacht-content { grid-column: 1 / -1; max-width: 42rem; }
 .yacht-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 0; }
 .yacht-facts div { border-top: 1px solid #b7c8c9; padding-top: .6rem; }
 .yacht-content p { line-height: 1.65; }
@@ -236,9 +236,9 @@ footer {
 .models { display: grid; grid-template-columns: repeat(8,minmax(0,1fr)); gap: .3rem; }
 .models label { position: relative; cursor: pointer; }
 .models span { display: flex; flex-direction: column; align-items: center; gap: .35rem; padding: .45rem .2rem .65rem; border-radius: .75rem; border: 1px solid transparent; font-size: .9rem; font-weight: 650; white-space: nowrap; }
-.models span { transition: transform .25s ease; }
+.models span { position: relative; transition: transform .25s ease; }
 .models img { transition: filter .35s ease; width: min(100%, 6rem); height: 4rem; object-fit: contain; mix-blend-mode: multiply; }
-.models input:checked + span { background: #edf5f5; border-color: #94b9be; }
+.models input:checked + span::after { content: ""; position: absolute; inset: auto 12% 0; height: 3px; border-radius: 2px; background: var(--ink); }
 .models input:focus-visible + span { transform: translateY(-5px); }
 .models input:focus-visible + span img { filter: contrast(1.03); }
 @media (hover: hover) {
@@ -270,7 +270,7 @@ footer {
 .charter-card-body { padding: 1.25rem; }
 .charter-card h2 { font-size: 1.25rem; line-height: 1.25; }
 .yacht-content,.yacht-availability { padding: clamp(1rem,2.6vw,2.4rem); background: #f1f6f7; border-radius: 1rem; border: 0; }
-#booking[hidden] { display: none; }
+#booking[hidden], #stay-book[hidden] { display: none; }
 @media(max-width:60rem) {
   .finder-fields,.charter-search { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .finder-fields button,.finder-fields label:first-child { grid-column: 1/-1; }
@@ -288,3 +288,13 @@ footer {
   .destinations > div { grid-template-columns: 1fr; }
   .destinations { margin-block: 2.5rem; }
 }
+
+.stay-form { display: flex; gap: .8rem; align-items: end; flex-wrap: wrap; }
+.stay-form label { display: grid; gap: .3rem; font-weight: 600; }
+.stay-form input { max-width: 100%; padding: .6rem; background: white; color: var(--ink); border: 1px solid #9bb2b9; border-radius: .5rem; font: inherit; }
+.stay-form button { cursor: pointer; font: inherit; }
+#stay-result { margin-block: 1rem; }
+
+#provider-photos { margin-top: .6rem; display: inline-block; }
+#provider-photos[hidden], .yacht-media:has(> [hidden]:first-child):has(> [hidden]:last-child) { display: none; }
+.slot-dates { font: inherit; color: var(--ink); background: transparent; border: 0; padding: .3rem 0; text-decoration: underline; text-underline-offset: .2em; text-align: left; cursor: pointer; }
