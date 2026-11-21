@@ -1,0 +1,21 @@
+
+Create a new Next.js project called "charter-api-test" using TypeScript and Tailwind CSS.
+
+Build a simple website that fetches yacht listings from the Charter Boats public API:
+
+https://charter.boats/api/ai/boats?limit=10&api_version=1.1
+
+Requirements:
+1. Create a homepage titled "Charter Yacht API Test".
+2. Fetch yacht data using a server-side API route.
+3. Display each yacht's name, model, location, price, and image when available.
+4. Show the total number of boats reported by the API.
+5. Include a refresh button to fetch the latest listings.
+6. Display a helpful error message if the API is unavailable.
+7. Use a clean, responsive design.
+8. Do not require an API key for the initial test.
+9. Keep the code organized and easy to expand.
+
+Initialize a Git repository, create a README.md, and make the first commit.
+
+If GitHub access is configured, create a new private GitHub repository named "charter-api-test" and push the project to it.
